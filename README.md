@@ -73,7 +73,7 @@ The first line requests an LMDB environment for a database hosted in
 than once**, not even from other threads, not even when using a different
 LMDB handle.  `getMDBEnv` keeps a registry of LMDB environments, keyed to
 the exact inode & flags.  If another part of your process requests access to
-the same inode, it will get the same environment. `MDBEnv` is threadsafe.
+the same inode, it will get the same environment. `MDBEnv` is thread-safe.
 
 On the second line, a database is opened within our environment. The
 semantics of opening or creating a database within LMDB are tricky. With
@@ -101,7 +101,7 @@ transaction is aborted automatically. To commit or abort, use `commit()` or
 
 LMDB is so fast because it does not copy data unless it really needs to.
 Memory bandwidth is a huge determinant of performance on modern CPUs. This
-wrapper agrees, and using modern C++ makes it possible to seemlessly use
+wrapper agrees, and using modern C++ makes it possible to seamlessly use
 'views' on data without copying them. Using these techniques, the call to
 `txn.put()` sets the "lmdb" string to "great", without making additional
 copies. 
@@ -134,8 +134,8 @@ For example, to store `double` values for 64 bit IDs:
 ```
 
 Behind the scenes, the `id` and `score` values are wrapped by `MDBInVal`
-which converts these values into byte strings. To retrieve thise values
-works similary:
+which converts these values into byte strings. To retrieve these values
+works similarly:
 
 ```
   auto txn = env->getRWTransaction();
@@ -216,7 +216,7 @@ records in under a second (!).
   cout<<"Done!"<<endl;
 ```
 
-Here we drop al keys from the database, which too happens nearly
+Here we drop all keys from the database, which too happens nearly
 instantaneously. Note that we pass our `txn` (which is a class) to the
 native `mdb_drop` function which we did not wrap. This is possible because
 `txn` converts to an `MDB_env*` if needed.
